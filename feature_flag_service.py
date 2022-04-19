@@ -60,7 +60,6 @@ class FeatureFlagService:
         user_in_segment = False
 
         hashed_user_id = self.return_hashed_integer_value_from_user_id(user_id)
-        print (hashed_user_id % 100)
 
         if (hashed_user_id % 100 < rollout):
             user_in_segment = True
@@ -72,10 +71,13 @@ def main() -> None:
     feature_flag_service = FeatureFlagService()
     feature_flag_service.set_globally("Global Feature 1", True)
     feature_flag_service.set(100, "User Feature 1", True)
-    feature_flag_service.set(100, "User Feature 1", True)
-    # enabled_flags = feature_flag_service.enabled_flags(100)
-    # is_enabled = feature_flag_service.is_enabled("User Feature 1", 100)
-    # user_in_segment = feature_flag_service.user_in_segment(32, 15)
+    feature_flag_service.set(120, "User Feature 2", True)
+    enabled_flags = feature_flag_service.enabled_flags(100)
+    is_enabled = feature_flag_service.is_enabled("User Feature 1", 120)
+    user_in_segment = feature_flag_service.user_in_segment(32, 15)
+    print("Enabled flags for user ID - 100: {}".format(enabled_flags))
+    print("Is flag enabled for user ID - 120: {}".format(is_enabled))
+    print("Is user ID - 32 in the 15% segment of rollout: {}".format(user_in_segment))
     
 if __name__ == "__main__":
     main()
